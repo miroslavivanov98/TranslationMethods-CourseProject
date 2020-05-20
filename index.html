@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+    <div class="box" style="margin-top: 20px;">
+        <div id="app">
+            <h1 class="title is-3">Проверка на дума</h1>
+            <input type="text" class="input" v-model="inputWord" @keyup="updateIsValidWord" style="margin-bottom: 20px;">
+
+            <div class="results">
+                <span class="is-valid is-valid__valid" v-if="isValid">
+                    Думата "{{ inputWord }}" е валидна
+                </span>
+                <span class="is-valid is-valid__invalid" v-if="!isValid">
+                    Думата "{{ inputWord }}" е невалидна
+                </span>
+
+                <div class="historyState">
+                    <p v-for="entry in stateHistory">{{ entry }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="secondTask.js"></script>
+
+    <script>
+
+        new Vue({
+            el: "#app",
+            data: function() {
+                return {
+                    inputWord: "",
+                    isValid: false,
+                    stateHistory: []
+                }
+            },
+            methods: {
+                updateIsValidWord: function() {
+                    const results = run(this.inputWord);
+                    this.isValid = results.success;
+                    this.stateHistory = results.stateHistory;
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>
